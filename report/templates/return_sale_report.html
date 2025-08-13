@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'return_sale_report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="report-details">
+        <h2>Return Sale Report</h2>
+        <div class="date-filter-container">
+            <form class="date-filter" method="GET" action="{% url 'return_sale_report' %}">
+                <label for="fromDate">From</label>
+                <input type="date" id="fromDate" name="fromDate" value="{{ from_date_str }}">
+                <label for="toDate">To</label>
+                <input type="date" id="toDate" name="toDate" value="{{ to_date_str }}">
+                <button type="submit" class="find-btn">Find</button>
+            </form>
+            <form class="date-filter" method="GET" action="{% url 'return_sale_report' %}">
+                <button type="submit" class="clear-btn">Clear</button>
+            </form>
+        </div>
+        <div class="header-row">
+            <div class="company-details">
+                <h2>Demo Company</h2>
+                <h5>Company Demo Address</h5>
+                <h5>demo@mail.com</h5>
+                <h5>123456</h5>
+            </div>
+            <div class="report-date">
+                <p>Date: {{ report_date|date:"Y-m-d" }}</p>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="stock-table">
+                <thead>
+                    <tr>
+                        <th>Return Date</th>
+                        <th>Product Name</th>
+                        <th>Product Model</th>
+                        <th>Invoice No</th>
+                        <th>Customer Name</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTableBody">
+                    {% for item in returns %}
+                    <tr class="stock-row">
+                        <td>{{ item.return_date|date:"Y-m-d" }}</td>
+                        <td>{{ item.product_name|default:"-" }}</td>
+                        <td>{{ item.product_model|default:"-" }}</td>
+                        <td>{{ item.invoice_no }}</td>
+                        <td>{{ item.customer_name|default:"-" }}</td>
+                        <td>{{ item.rate|floatformat:2 }}</td>
+                        <td>{{ item.quantity|default:"0" }}</td>
+                        <td>{{ item.total_amount|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr class="no-data">
+                        <td colspan="8">No return sales in selected date range</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    {% if returns %}
+                    <tr class="total-row">
+                        <td colspan="7" style="text-align: right; padding-right: 25px; font-weight: bold;">Total :</td>
+                        <td>{{ total_returns|floatformat:2 }}</td>
+                    </tr>
+                    {% endif %}
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

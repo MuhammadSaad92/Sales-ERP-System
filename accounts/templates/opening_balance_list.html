@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'opening_balance_list.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="main-content">
+    <h2>Opening Balance</h2>
+    <div class="add-button-container">
+      <a href="{% url 'accounts:opening_balance_add' %}" class="btn btn-add">Add Opening Balance</a>
+    </div>
+    <table class="opening-balance-table">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Financial Year</th>
+          <th>Date</th>
+          <th>Account Name</th>
+          <th>Sub Type</th>
+          <th>Debit</th>
+          <th>Credit</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for balance in opening_balances %}
+          <tr>
+            <td>{{ balance.sl_no }}</td>
+            <td>{{ balance.financial_year }}</td>
+            <td>{{ balance.date|date:"Y-m-d" }}</td>
+            <td>{{ balance.account_name }}</td>
+            <td>{{ balance.sub_type }}</td>
+            <td>{{ balance.debit }}</td>
+            <td>{{ balance.credit }}</td>
+            <td>{{ balance.action }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8" style="text-align: center;">No opening balances available.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

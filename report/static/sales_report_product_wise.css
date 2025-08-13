@@ -1,0 +1,271 @@
+/* Prevent horizontal scrolling at page level */
+html, body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 72px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Report Details */
+.report-details h2 {
+    color: #333;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+/* Header Row */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+/* Company Details */
+.company-details h2 {
+    font-size: 20px;
+    margin: 5px 0;
+    color: #333;
+}
+.company-details h5 {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: normal;
+}
+
+/* Report Date */
+.report-date p {
+    font-size: 14px;
+    color: #555;
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Date Filter Container */
+.date-filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Date Filter */
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-filter label {
+    font-size: 14px;
+    color: #333;
+}
+
+.date-filter input[type="date"] {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.date-filter .find-btn,
+.date-filter .clear-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.date-filter .find-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.date-filter .clear-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.date-filter .find-btn:hover {
+    background-color: #45a049;
+}
+
+.date-filter .clear-btn:hover {
+    background-color: #da190b;
+}
+
+/* Table wrapper for scrolling */
+.table-wrapper {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table */
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    table-layout: fixed;
+}
+
+.stock-table th,
+.stock-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stock-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #555;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.stock-table tfoot td {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Column widths */
+.stock-table th:nth-child(1),
+.stock-table td:nth-child(1) {
+    width: 100px;
+    max-width: 100px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(2),
+.stock-table td:nth-child(2) {
+    width: 150px;
+    max-width: 150px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(3),
+.stock-table td:nth-child(3) {
+    width: 120px;
+    max-width: 120px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(4),
+.stock-table td:nth-child(4) {
+    width: 80px;
+    max-width: 80px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(5),
+.stock-table td:nth-child(5) {
+    width: 150px;
+    max-width: 150px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(6),
+.stock-table td:nth-child(6) {
+    width: 80px;
+    max-width: 80px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(7),
+.stock-table td:nth-child(7) {
+    width: 80px;
+    max-width: 80px;
+    white-space: nowrap;
+}
+
+.stock-table th:nth-child(8),
+.stock-table td:nth-child(8) {
+    width: 100px;
+    max-width: 100px;
+    white-space: nowrap;
+}
+
+.stock-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .stock-table {
+        font-size: 12px;
+    }
+
+    .stock-table th,
+    .stock-table td {
+        padding: 8px;
+    }
+
+    .report-details h2 {
+        font-size: 20px;
+    }
+
+    .company-details h2 {
+        font-size: 18px;
+    }
+
+    .company-details h5,
+    .report-date p {
+        font-size: 12px;
+    }
+
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .report-date p {
+        text-align: left;
+    }
+
+    .date-filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .date-filter {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .date-filter input[type="date"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .date-filter .find-btn,
+    .date-filter .clear-btn {
+        width: 100%;
+    }
+}

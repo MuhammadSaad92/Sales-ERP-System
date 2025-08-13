@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'base.css' %}" />
     {% block extra_css %}{% endblock %}
   </head>
@@ -12,14 +12,14 @@
     <nav class="navbar">
       <div>
         <a href=""><i class="fa fa-balance-scale" aria-hidden="true"></i> Sale</a>
-        <a href=""><i class="fa-solid fa-coins" aria-hidden="true"></i> Customer Receive</a>
-        <a href=""><i class="fa-solid fa-usd" aria-hidden="true"></i> Supplier Payment</a>
+        <a href=""><i class="fa fa-money" aria-hidden="true"></i> Customer Receive</a>
+        <a href=""><i class="fa fa-money" aria-hidden="true"></i> Supplier Payment</a>
         <a href=""><i class="fa fa-shopping-cart" aria-hidden="true"></i> Purchase</a>
       </div>
     </nav>
-    <button class="toggle-btn" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+    <button class="toggle-btn" id="sidebarToggle"><i class="fa fa-bars"></i></button>
     <aside class="sidebar" id="sidebar">
-      <ul>
+      <ul class="dropdown">
         <li>
           <a href="{% url 'dashboard' %}"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
         </li>
@@ -98,6 +98,66 @@
           <ul class="dropdown-menu">
             <li>
               <a href="{% url 'stock_report' %}">Stock Report</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle"><i class="fa fa-book" aria-hidden="true"></i> Report <i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{% url 'closing_report' %}"> Closing Report</a>
+            </li>
+            <li>
+              <a href="{% url 'sales_report_product_wise' %}"> Sales Report (Product Wise)</a>
+            </li>
+            <li>
+              <a href="{% url 'purchase_report_product_wise' %}"> Purchase Report (Product Wise)</a>
+            </li>
+            <li>
+              <a href="{% url 'profit_report' %}"> Profit Report (Sale Wise)</a>
+            </li>
+            <li>
+              <a href="{% url 'vat_tax_report' %}"> VAT & TAX Report</a>
+            </li>
+            <li>
+              <a href="{% url 'shipping_cost_report' %}"> Shipping Cost Report</a>
+            </li>
+            <li>
+              <a href="{% url 'return_sale_report' %}">Return Sale Report</a>
+            </li>
+            <li>
+              <a href="{% url 'return_purchase_report' %}">Return Purchase Report</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle"><i class="fa fa-money" aria-hidden="true"></i> Accounts <i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{% url 'accounts:opening_balance_list' %}">Opening Balance</a>
+            </li>
+            <li>
+              <a href="#">Credit Voucher</a>
+            </li>
+            <li>
+              <a href="#">Debit Voucher</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle"><i class="fa fa-retweet" aria-hidden="true"></i> Returns <i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{% url 'returns:add_return' %}">Add Returns</a>
+            </li>
+            <li>
+              <a href="{% url 'returns:customer_return_list' %}">Customer Return List</a>
+            </li>
+            <li>
+              <a href="{% url 'returns:supplier_return_list' %}">Supplier Return List</a>
+            </li>
+            <li>
+              <a href="#">Wastage Return Details</a>
             </li>
           </ul>
         </li>

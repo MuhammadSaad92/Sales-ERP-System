@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'closing_report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="report-details">
+        <h2>{{ report_title }}</h2>
+        <div class="date-filter">
+            <label for="fromDate">From</label>
+            <input type="date" id="fromDate">
+            <label for="toDate">To</label>
+            <input type="date" id="toDate">
+            <button onclick="filterByDate()">Find</button>
+        </div>
+        <div class="header-row">
+            <div class="company-details">
+                <h2>Demo Company</h2>
+                <h5>Company Demo Address</h5>
+                <h5>demo@mail.com</h5>
+                <h5>123456</h5>
+            </div>
+            <div class="report-date">
+                <p>Date: {{ report_date|date:"Y-m-d" }}</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SL.</th>
+                        <th>Date</th>
+                        <th>Cash In</th>
+                        <th>Cash Out</th>
+                        <th>Balance</th>
+                        {% comment %} <th>Running Balance</th> {% endcomment %}
+                    </tr>
+                </thead>
+                <tbody id="reportTableBody">
+                    {% for item in report_data %}
+                    <tr class="stock-row">
+                        <td>{{ item.sl }}</td>
+                        <td>{{ item.date|date:"Y-m-d" }}</td>
+                        <td>{{ item.cash_in|floatformat:2 }}</td>
+                        <td>{{ item.cash_out|floatformat:2 }}</td>
+                        <td>{{ item.daily_balance|floatformat:2 }}</td>
+                        {% comment %} <td>{{ item.balance|floatformat:2 }}</td> {% endcomment %}
+                    </tr>
+                    {% empty %}
+                    <tr class="no-data">
+                        <td colspan="6">No data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    {% if report_data %}
+                    <tr class="total-row">
+                        <td colspan="4" style="text-align: right; padding-right: 85px; font-weight: bold;">Total Balance:</td>
+                        <td>{{ total_balance|floatformat:2 }}</td>
+                        {% comment %} <td>{{ cumulative_balance|floatformat:2 }}</td> {% endcomment %}
+                    </tr>
+                    {% endif %}
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

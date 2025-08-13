@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shipping_cost_report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="report-details">
+        <h2>Shipping Cost Report</h2>
+        <div class="date-filter-container">
+            <form class="date-filter" method="GET" action="{% url 'shipping_cost_report' %}">
+                <label for="fromDate">From</label>
+                <input type="date" id="fromDate" name="fromDate" value="{{ from_date_str }}">
+                <label for="toDate">To</label>
+                <input type="date" id="toDate" name="toDate" value="{{ to_date_str }}">
+                <button type="submit" class="find-btn">Find</button>
+            </form>
+            <form class="date-filter" method="GET" action="{% url 'shipping_cost_report' %}">
+                <button type="submit" class="clear-btn">Clear</button>
+            </form>
+        </div>
+        <div class="header-row">
+            <div class="company-details">
+                <h2>Demo Company</h2>
+                <h5>Company Demo Address</h5>
+                <h5>demo@mail.com</h5>
+                <h5>123456</h5>
+            </div>
+            <div class="report-date">
+                <p>Date: {{ report_date|date:"Y-m-d" }}</p>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="stock-table">
+                <thead>
+                    <tr>
+                        <th>Sale Date</th>
+                        <th>Invoice No</th>
+                        <th>Customer Name</th>
+                        <th>Shipping Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTableBody">
+                    {% for sale in sales %}
+                    <tr class="stock-row">
+                        <td>{{ sale.sale_date|date:"Y-m-d" }}</td>
+                        <td>{{ sale.invoice_no }}</td>
+                        <td>{{ sale.customer_name|default:"-" }}</td>
+                        <td>{{ sale.shipping_cost|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr class="no-data">
+                        <td colspan="4">No sales in selected date range</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    {% if sales %}
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align: right; padding-right: 25px; font-weight: bold;">Total :</td>
+                        <td>{{ total_shipping_cost|floatformat:2 }}</td>
+                    </tr>
+                    {% endif %}
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

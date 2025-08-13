@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'add_returns.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Add New Return</h2>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post" class="return-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="return_type">Return Type:</label>
+            <select name="return_type" id="return_type" required onchange="toggleFields()">
+                <option value="customer">Return From Customer</option>
+                <option value="supplier">Return To Supplier</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="invoice_no">Return Invoice No:</label>
+            <input type="text" name="invoice_no" id="invoice_no" required>
+        </div>
+        <div class="form-group customer-field">
+            <label for="customer_id">Customer:</label>
+            <select name="customer_id" id="customer_id">
+                <option value="">Select Customer</option>
+                {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.customer_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group supplier-field" style="display: none;">
+            <label for="supplier_id">Supplier:</label>
+            <select name="supplier_id" id="supplier_id">
+                <option value="">Select Supplier</option>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}">{{ supplier.supplier_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group customer-field">
+            <label for="sale_id">Sale Invoice:</label>
+            <select name="sale_id" id="sale_id">
+                <option value="">Select Sale</option>
+                {% for sale in sales %}
+                    <option value="{{ sale.id }}">Sale {{ sale.id }} - {{ sale.customer.customer_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group supplier-field" style="display: none;">
+            <label for="purchase_id">Purchase Invoice:</label>
+            <select name="purchase_id" id="purchase_id">
+                <option value="">Select Purchase</option>
+                {% for purchase in purchases %}
+                    <option value="{{ purchase.id }}">{{ purchase.challan_no }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+        </div>
+        <div class="form-group">
+            <label for="total_amount">Total Amount:</label>
+            <input type="number" step="0.01" name="total_amount" id="total_amount" required>
+        </div>
+        <h3>Return Items</h3>
+        <div id="return-items">
+            <div class="return-item form-group">
+                <label>Product:</label>
+                <select name="product_id" required>
+                    <option value="">Select Product</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}" data-price="{{ product.sale_price }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <label>Quantity:</label>
+                <input type="number" step="0.01" name="quantity" min="0.01" required>
+                <label>Unit Price:</label>
+                <input type="number" step="0.01" name="unit_price" required>
+                <button type="button" class="remove-item">Remove</button>
+            </div>
+        </div>
+        <button type="button" id="add-item" class="submit-btn">Add Item</button>
+        <button type="submit" class="submit-btn">Add Return</button>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Toggle customer/supplier fields
+        function toggleFields() {
+            const returnType = document.getElementById('return_type').value;
+            document.querySelectorAll('.customer-field').forEach(field => {
+                field.style.display = returnType === 'customer' ? 'block' : 'none';
+            });
+            document.querySelectorAll('.supplier-field').forEach(field => {
+                field.style.display = returnType === 'supplier' ? 'block' : 'none';
+            });
+        }
+
+        // Auto-fill unit price based on product selection
+        document.getElementById('return-items').addEventListener('change', function (e) {
+            if (e.target.name === 'product_id') {
+                const unitPriceInput = e.target.parentElement.querySelector('input[name="unit_price"]');
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                const price = selectedOption.getAttribute('data-price');
+                if (price) {
+                    unitPriceInput.value = parseFloat(price).toFixed(2);
+                }
+            }
+        });
+
+        // Add new return item
+        document.getElementById('add-item').addEventListener('click', function () {
+            const itemsContainer = document.getElementById('return-items');
+            const item = itemsContainer.querySelector('.return-item').cloneNode(true);
+            item.querySelector('select[name="product_id"]').value = '';
+            item.querySelector('input[name="quantity"]').value = '';
+            item.querySelector('input[name="unit_price"]').value = '';
+            itemsContainer.appendChild(item);
+        });
+
+        // Remove return item
+        document.getElementById('return-items').addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-item') && document.querySelectorAll('.return-item').length > 1) {
+                e.target.parentElement.remove();
+            }
+        });
+
+        toggleFields();
+    });
+</script>
+{% endblock %}

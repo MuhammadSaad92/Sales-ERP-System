@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'opening_balance_form.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="main-content">
+    <h2>Add Opening Balance</h2>
+    <div class="form-header">
+      <div class="form-field">
+        <label for="id_financial_year">Financial Year:</label>
+        {{ form.financial_year }}
+      </div>
+      <div class="form-field">
+        <label for="id_date">Date:</label>
+        {{ form.date }}
+      </div>
+    </div>
+    <form method="post" id="opening-balance-form">
+      {% csrf_token %}
+      <table class="opening-balance-table">
+        <thead>
+          <tr>
+            <th>Account Name</th>
+            <th>Sub Type</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="opening-balance-rows">
+          <tr class="opening-balance-row">
+            <td>{{ form.account_name }}</td>
+            <td>{{ form.sub_type }}</td>
+            <td>{{ form.debit }}</td>
+            <td>{{ form.credit }}</td>
+            <td></td> <!-- Empty Action column for the first row -->
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total</td>
+            <td id="total-debit">0.00</td>
+            <td id="total-credit">0.00</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button type="button" id="add-more-btn" class="btn btn-add">Add More</button>
+      <button type="submit" class="btn btn-save">Save</button>
+    </form>
+  </div>
+
+  <script>
+    const customersList = {{ customers|safe }};  <!-- Use context variable for customers -->
+    const suppliersList = {{ suppliers|safe }};  <!-- Use context variable for suppliers -->
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const rowsContainer = document.getElementById('opening-balance-rows');
+      const addMoreBtn = document.getElementById('add-more-btn');
+      let rowCount = rowsContainer.getElementsByClassName('opening-balance-row').length;
+
+      updateSubTypeOptions();
+
+      rowsContainer.addEventListener('change', function(e) {
+        if (e.target.name.endsWith('account_name') || e.target.name.endsWith('debit') || e.target.name.endsWith('credit')) {
+          updateSubTypeOptions(e.target.closest('tr'));
+          updateTotals();
+        }
+      });
+
+      addMoreBtn.addEventListener('click', function() {
+        addNewRow();
+      });
+
+      function addNewRow() {
+        rowCount++;
+        const newRow = document.createElement('tr');
+        newRow.className = 'opening-balance-row';
+        newRow.innerHTML = `
+          <td><select name="account_name-${rowCount}" required><option value="Customer">Customer</option><option value="Supplier">Supplier</option></select></td>
+          <td><select name="sub_type-${rowCount}" required></select></td>
+          <td><input type="number" name="debit-${rowCount}" step="0.01" required></td>
+          <td><input type="number" name="credit-${rowCount}" step="0.01" required></td>
+          <td><button type="button" class="btn btn-delete">Delete</button></td> <!-- Delete button for added rows -->
+        `;
+        rowsContainer.appendChild(newRow);
+
+        const accountSelect = newRow.querySelector('select[name="account_name-' + rowCount + '"]');
+        accountSelect.addEventListener('change', () => updateSubTypeOptions(newRow));
+
+        const deleteBtn = newRow.querySelector('.btn-delete'); // Corrected selector
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', function() {
+            newRow.remove();
+            updateTotals();
+          });
+        }
+
+        updateSubTypeOptions(newRow);
+        updateTotals();
+      }
+
+      function updateSubTypeOptions(row = null) {
+        const allAccountSelects = row ? [row.querySelector('select[name$="account_name"]')] : rowsContainer.getElementsByTagName('select');
+        for (let select of allAccountSelects) {
+          if (select) {
+            const subTypeSelect = select.closest('tr').querySelector('select[name$="sub_type"]');
+            const accountValue = select.value;
+            subTypeSelect.innerHTML = '<option value="">Select Sub Type</option>';
+            if (accountValue === 'Customer') {
+              subTypeSelect.innerHTML += customersList.map(c => `<option value="${c}">${c}</option>`).join('');
+            } else if (accountValue === 'Supplier') {
+              subTypeSelect.innerHTML += suppliersList.map(s => `<option value="${s}">${s}</option>`).join('');
+            }
+          }
+        }
+      }
+
+      function updateTotals() {
+        let totalDebit = 0;
+        let totalCredit = 0;
+        rowsContainer.querySelectorAll('input[name$="debit"]').forEach(input => {
+          totalDebit += parseFloat(input.value) || 0;
+        });
+        rowsContainer.querySelectorAll('input[name$="credit"]').forEach(input => {
+          totalCredit += parseFloat(input.value) || 0;
+        });
+        document.getElementById('total-debit').textContent = totalDebit.toFixed(2);
+        document.getElementById('total-credit').textContent = totalCredit.toFixed(2);
+      }
+
+      updateTotals();
+    });
+  </script>
+{% endblock %}

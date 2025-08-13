@@ -1,0 +1,107 @@
+.main-content {
+  padding: 20px;
+}
+
+h2 {
+  margin-top: 72px;
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-field input,
+.form-field select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.opening-balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.opening-balance-table th,
+.opening-balance-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.opening-balance-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.opening-balance-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.opening-balance-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+#opening-balance-rows td {
+  vertical-align: middle;
+}
+
+#opening-balance-rows select,
+#opening-balance-rows input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.btn-add {
+  background-color: #28a745;
+}
+
+.btn-save {
+  background-color: #28a745;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  padding: 5px 10px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}

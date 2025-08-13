@@ -37,7 +37,7 @@ body {
 }
 
 .navbar a:hover {
-  color: darkgreen;
+  color: rgb(24, 74, 24);
 }
 
 .sidebar {
@@ -47,15 +47,40 @@ body {
   margin-top: 53px;
   padding-top: 60px;
   min-height: 100%;
-  width: 250px;
+  width: 270px;
   z-index: 810;
-  background-color: black;
-  color: azure;
-  transition: left 0.3s ease;
+  
+  /* Pure Glass Effect */
+  background: rgba(110, 110, 110, 0.15); /* Lighter transparent base */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%); /* Safari support */
+  
+  /* Frosted Glass Border */
+  border-right: 1px solid rgba(123, 123, 123, 0.723);
+  
+  /* Text styling */
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  
+  /* Animation */
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Optional: Enhance hover effects on menu items */
+.sidebar li a {
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 2px 8px;
+}
+
+.sidebar li a:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateX(4px);
 }
 
 .sidebar.collapsed {
-  left: -250px;
+  left: -270px;
 }
 
 .sidebar ul {
@@ -65,11 +90,12 @@ body {
 }
 
 .sidebar a {
-  color: azure;
+  color: rgb(32, 32, 32);
   text-decoration: none;
   display: flex;
   align-items: center;
   padding: 10px 15px;
+  font-size: medium;
 }
 
 .sidebar a i {
@@ -77,7 +103,7 @@ body {
 }
 
 .sidebar a:hover {
-  color: lightgreen;
+  color: #3498db;
   background-color: #1a1a1a;
 }
 
@@ -90,6 +116,11 @@ body {
 
 .sidebar .dropdown.active ul.dropdown-menu {
   display: block;
+  font-size: smaller;
+}
+
+.sidebar .dropdown-menu a {
+  font-size: 0.85rem; /* or use 12px, 13px etc. as per your preference */
 }
 
 .sidebar .dropdown > a {
@@ -137,10 +168,10 @@ body {
 
 /* Main content styling for toggle */
 #mainContent {
-  margin-left: 250px;
+  margin-left: 270px; /* Match your sidebar width */
   transition: margin-left 0.3s ease;
 }
 
 #mainContent.full-width {
-  margin-left: 0;
+  margin-left: 0; /* Fully expands when sidebar is collapsed */
 }

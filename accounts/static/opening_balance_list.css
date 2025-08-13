@@ -1,0 +1,59 @@
+.main-content {
+  padding: 20px;
+}
+h2 {
+  margin-top: 72px;
+  text-align: center;
+}
+.add-button-container {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-add {
+  background-color: #28a745;
+}
+
+.btn-save {
+  background-color: #28a745;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.opening-balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.opening-balance-table th,
+.opening-balance-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.opening-balance-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.opening-balance-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.opening-balance-table tr:hover {
+  background-color: #f1f1f1;
+}

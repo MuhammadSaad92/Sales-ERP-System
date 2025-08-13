@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'customer_return_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ title }}</h2>
+    <table class="returns-table">
+        <thead>
+            <tr>
+                <th>SL.</th>
+                <th>Invoice No</th>
+                <th>Customer Name</th>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for return in returns %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ return.invoice_no }}</td>
+                <td>{{ return.customer.customer_name|default:"N/A" }}</td>
+                <td>{{ return.date|date:"Y-m-d" }}</td>
+                <td>{{ return.total_amount }}</td>
+                <td>
+                    <a href="{% url 'returns:return_details' return.invoice_no %}" class="action-btn">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No customer returns found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
